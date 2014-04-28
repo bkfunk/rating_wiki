@@ -7,8 +7,9 @@ import pandas as pd
 url = 'https://ckannet-storage.commondatastorage.googleapis.com/2012-10-22T184507/aft4.tsv.gz'
 
 df = pd.read_csv('data/aft4.tsv.gz', compression='gzip', sep='\t')
-df.info
-
+df = df[df.page_namespace==0] # only want main wiki pages
+df.info()
+print("Read TSV file...")
 # Egad, almost 50 million rows! Let's cut it down.
 # We'll take a random sample of page_ids, then get all the ratings for those
 # pages.
@@ -18,7 +19,9 @@ sample_pids = np.random.choice(page_ids, 1000, replace=False) # sample of 1000
 
 # Now cut the dataset to data for those 1000 pages
 sample = df[df.page_id.isin(sample_pids)];
-sample.info
+sample.info()
+
+#sample.pivot('index_var'...)
 
 # Much better!
 
@@ -34,3 +37,7 @@ reshape wide with rating key/value, probably before doing other things
 we'll have to aggregate the revisions between ratings
   so if there are 3 edits between revisions, we'll need to figure out what the diff really is from one to the next
   
+"""
+
+
+
