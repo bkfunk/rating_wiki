@@ -1,7 +1,7 @@
 [&laquo; Brian Karfunkel home](http://bkfunk.github.io)
 
 Rating Wikipedia
-===========
+================
 
 What makes a good Wikipedia page?
 
@@ -13,26 +13,29 @@ The file (approx 441.6 MB gzipped) is hosted here:
 http://datahub.io/dataset/wikipedia-article-ratings/resource/8a218330-6ac3-40d1-ae0d-4224f57db214
 
 There are 4 dimensions on which a page could be rated:
+
 1. Trustworthy (`trust` in my cleaned dataset)
 2. Objective (`obj`)
 3. Complete (`comp`)
 4. Well-written (`writ`)
 
 A user could rate _any_ or _all_ dimensions for each page. In the data provided, in addition to the values for each rating dimension, we have:
-* Timestamp when the rating was submitted
-* `page_id` and page title, identifying the page being rated
-* `rev_id` identifying the particular version (i.e. "revsion") of the page that was rated
-* An indicator variable (`1` or `0`) indicating whether the user rating the page was logged in (the actual user's identity is anonymized out of the data)
+
+- Timestamp when the rating was submitted
+- `page_id` and page title, identifying the page being rated
+- `rev_id` identifying the particular version (i.e. "revision") of the page that was rated
+- An indicator variable (`1` or `0`) indicating whether the user rating the page was logged in (the actual user's identity is anonymized out of the data)
 
 Given the anonymized data, it is impossible to know whether users were able to rate a page more than once, but given the fact that most of the ratings come from non-logged-in users, it is certainly possible.
 
 My goal for this analysis was to first analyze the ratings data itself to see whether the ratings seemed to provide a useful measure of page quality. Then, I wanted to combine the ratings data with data on the actual page versions rated to look at how different kinds of edits affect the page's rating. Namely, is there a way to quantify which edits do the most to improve a page in any or all of the four rating dimensions? For example, are big edits (based on number of characters edited) better than small edits? Do small edits improve score for quality of writing (`writ`), while big edits improve completeness (`comp`)? Are logged-in users better editors than anonymous users?
 
 If there were a way to identify particularly helpful edits in terms of improving article quality, then Wikipedia could:
-* Give feedback to editors to help them learn to make the most effective edits, and give editors a sense of quantified accomplishment to keep them engaged
-* Highlight pages in particular need of quality improvements for editors that are particularly good at providing such improvements (for example, prioritizing articles that are poorly written for editors that are good at revising prose and copyediting)
-* Create more bots to make certain algorithmic edits
-* Identify editors that are malicious or that consistently degrade page quality
+
+- __Give feedback__ to editors to help them learn to make the most effective edits, and give editors a sense of quantified accomplishment to keep them engaged
+- __Highlight pages__ in particular need of quality improvements for editors that are particularly good at providing such improvements (for example, prioritizing articles that are poorly written for editors that are good at revising prose and copyediting)
+- Create more bots to make certain __algorithmic edits__
+- __Identify editors__ that are malicious or that consistently degrade page quality
 
 ## Cleaning Data
 The first step was cleaning the ratings data. The iPython Notebook showing all the cleaning code and output is [here][cleaning notebook]. In addition to reshaping the data so that each rating has one observation, rather than four, I cut the data to a sample of some 79,000 ratings for 10,000 different pages.
@@ -58,6 +61,7 @@ My exploratory analysis is documented [here][exploring notebook]. I start by loo
   
   ![Chart of distribution of each rating dimension][rating dimension values chart]
   
+  While the rightmost peak (at rating value of 5) is lower for "Complete", __all 4 dimensions have another peak at a rating value of 1__. Thus, it appears that raters __tend to rate pages at the extremes__, either very high or very low. This is true regardless of whether the user rates only 1 dimension or all 4 (see the [complete exploration][exploring notebook] for charts illustrating this).
   
   
 + __How consistent are the ratings for a single page or version?__
@@ -66,10 +70,10 @@ Furthermore, the bimodality becomes much more pronounced when looking at pages w
   
   This could mean that having a higher `N`, and thus a theoretically more reliable measure of the true ratings distribution, results in a clearer picture of a fundamental, bimodal pattern. However, it could also mean that pages with many ratings are in some way different; for example, pages with higher ratings could be more *controversial*, leading some to simply give low ratings because they disagree with the *content of the page itself*, rather than judging the completeness, trustworthiness, objectivity, or quality of writing.
 
-[cleaning notebook]:
-[exploring notebook]:
-[ratings per page chart]:summary/ratings_per_page_chart.png "Distribution of Ratings perPage"
-[rating values chart]:summary/dist_of_ratings_and_dims.png "Distribution of Rating Values and Dimensions Rated"
-[rating dimension values chart]: 
+[cleaning notebook]: path/to/notebook/tk
+[exploring notebook]: path/to/notebook/tk
+[ratings per page chart]: summary/ratings_per_page_chart.png "Distribution of Ratings per Page"
+[rating values chart]: summary/dist_of_ratings_and_dims.png "Distribution of Rating Values and Dimensions Rated"
+[rating dimension values chart]: summary/dist_of_each_dimension.png "Distribution of Each Rating Dimension"
 
 
