@@ -187,15 +187,15 @@ In my [exploratory analysis][exploring notebook], I look at the rating history f
 
 > ###### _Figure 8_
 
-> ![Chart of page rating history: "Arithmetic Progression"][page hist 1]
+> ![Chart of page rating history: "Arithmetic Progression"][page rate hist 1]
 
 > ###### _Figure 9_
 
-> ![Chart of page rating history: "List of spells in Harry Potter"][page hist 2]
+> ![Chart of page rating history: "List of spells in Harry Potter"][page rate hist 2]
 
 > ###### _Figure 10_
 
-> ![Chart of page rating history: "United States Declaration of Independence"][page hist 3]
+> ![Chart of page rating history: "United States Declaration of Independence"][page rate hist 3]
 
 > The boxplot for each page shows the distribution of `rating_all_mean` (i.e. the mean rating when all 4 dimensions are recorded) for each version of the page in our dataset, indexed by version number (rather than, say, date the version was made). The blue line and circles trace the mean, while the red lines are the median.
 
