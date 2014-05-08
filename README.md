@@ -68,7 +68,8 @@ The average page in the sample has **7.85 ratings** in the year-long period (sta
 Most ratings tend to be high on the 1-5 scale.
     
 > _Figure 2_
-![Chart of distribution of rating values][rating values chart]
+
+> ![Chart of distribution of rating values][rating values chart]
 <small>Footnote</small>
 
 The above chart shows the distribution of average rating value for each observation. The first plot is the distribution of `rating_all_mean`, which is the mean of the 4 rating dimensions _when all 4 dimensions are rated_ (and NA otherwise), while the second plot is the distribution of `rating_any_mean`, which is the mean of all rating dimensions _that are present_ (whether there is only 1 dimension rated, or 4, etc.). Note that, for both of these histograms (and all similar histograms below), each bin does **not** include the right-most boundary **_except_** the last, which includes ratings with means from 4.5 to 5, _inclusive_. The third plot shows the proportions of each rating observation that have 1, 2, 3, or 4 dimensions rated.
