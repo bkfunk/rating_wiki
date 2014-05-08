@@ -199,13 +199,27 @@ In my [exploratory analysis][exploring notebook], I look at the rating history f
 
 > The boxplot for each page shows the distribution of `rating_all_mean` (i.e. the mean rating when all 4 dimensions are recorded) for each version of the page in our dataset, indexed by version number (rather than, say, date the version was made). The blue line and circles trace the mean, while the red lines are the median.
 
-There certainly does not appear to be a broad upward trend. Indeed, when I look at correlations for all pages in the data set, there is almost no correlation between version number and rating value:
+There certainly does not appear to be a broad upward trend. Indeed, when I look at correlations for all pages in the data set, **there is almost no correlation between version number and rating value**:
 
 > ###### _Table 5_
 
 > | Correlation | Mean Rating, Any Dimensions | Mean Rating, All Dimensions | "Complete" | "Objective" | "Trustworthy" | "Well-Written" |
 |-------------|--------------|-----------|-----------|-----------|-----------|----------|
 | nth_version | 0.063059	 | 0.063983	 | 0.096140	 | 0.035822	 | 0.051972	 | 0.049783 |
+
+It is possible that, if I can combine versions that, due to the edits being very minor, are essentially the same, that a different trend could emerge. But as of now, there is not much evidence that pages get better over time when quality is measured by user ratings.
+
+**Next Steps**
+-----------------
+
+I am currently working on merging in data about the actual edits (and other data) from the MediaWiki API. Once I do that, I'll be able to see if certain kinds of edits affect ratings in different ways. For example:
+
+- Do edits that change a bigger portion of the page have a bigger effect on ratings?
+- Do minor edits have a different effect on ratings?
+- Do edits by logged-in users have a more positive effect on ratings?
+- Does adding links increase the rating for trustworthiness or objectivity?
+- How are ratings correlated to length of the page? To number of links? To amount of data attached to infoboxes?
+
 
 
 
