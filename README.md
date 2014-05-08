@@ -151,22 +151,33 @@ There are many ways to measure the spread of data like this, but I will focus on
 
 Even though the sample only covers a year, it is of course possible that pages would differ significantly between ratings. However, when looking at _versions_ of pages, we see MADs that are smaller, but still relatively large in magnitude. To put this in perspective, consider a version of an article that has only 2 ratings; Table 4 indicates that the average of all 4 rating dimensions for those two ratings would tend to be about 1.6 points apart on a 1-5 scale, meaning that if one rating was a 5 (very high), on average the other rating would be a 3.4 (very mediocre, given the fact that most ratings are, in fact, 4s or 5s).
 
+To further illustrate this, here are plots of the distributions of the _non-absolute_ differences between each observation and the average for that version:
+
 > ###### _Figure 4_
 
 > ![Chart of distribution of deviation from version average][diff version avg 2]
 
 > ###### _Figure 5_
 
-> ![Chart of distribution of deviation from version average][diff version avg 5]
+> ![Chart of distribution of deviation from version average][diff version avg 4]
 
 > ###### _Figure 6_
 
-> ![Chart of distribution of deviation from version average][diff version avg 11]
+> ![Chart of distribution of deviation from version average][diff version avg 6]
 
-Furthermore, the bimodality becomes much more pronounced when looking at pages with high numbers of ratings.
+> <small>The cutoffs of 2, 4, and 6 were chosen because they represent 100%, 25%, and 10%, respectively, of the sample of versions with at least 2 ratings</small>.
+
+Though there initially appears to be just a rightward skew to the distributions, as we get more ratings per version, the familiar bimodal pattern begins to show up again. Furthermore, the bimodality becomes much more pronounced when looking at versions with even higher numbers of ratings, and it is also more pronounced when looking at pages, rather than versions of pages (no doubt in part because pages tend to have higher numbers of ratings per page, and thus there is more information).
   
-  
-This could mean that having a higher `N`, and thus a theoretically more reliable measure of the true ratings distribution, results in a clearer picture of a fundamental, bimodal pattern. However, it could also mean that pages with many ratings are in some way different; for example, pages with higher ratings could be more *controversial*, leading some to simply give low ratings because they disagree with the *content of the page itself*, rather than judging the completeness, trustworthiness, objectivity, or quality of writing.
+On the one hand, the fact that this bimodality is more clear with a higher `N` (i.e. more ratings per version) could indicate that we simply have more information and thus have clearer picture of what could be a fundamental, bimodal pattern. However, it could also mean that pages with many ratings are in some way different; for example, pages with higher ratings could be more *controversial*, leading some to simply give low ratings because they disagree with the *content of the page itself*, rather than judging the completeness, trustworthiness, objectivity, or quality of writing.
+
+#### 5. Do different kinds of users rate pages differently?
+
+In the dataset, the only information we have about the user rating the page is whether they are logged in or not. Still, given that most users are not logged in, being logged in could indicate that the user is more aware of the standards of Wikipedia, and thus is a better judge of article quality. It could also be that logged-in users are more invested in the quality of Wikipedia and thus will put more effort into providing a full and accurate rating. Still another option is that logged-in users are more likely to have edited the pages themselves, and thus may be either rating their own work or giving a low rating before deciding to edit the page.
+
+> ###### _Figure 7_
+
+> ![Chart of distribution of ratings based on logged-in status][logged in rating dist]
 
 [cleaning notebook]: path/to/notebook/tk
 [exploring notebook]: path/to/notebook/tk
@@ -174,8 +185,9 @@ This could mean that having a higher `N`, and thus a theoretically more reliable
 [rating values chart]: summary/dist_of_ratings_and_dims.png "Distribution of Rating Values and Dimensions Rated"
 [rating dimension values chart]: summary/dist_of_each_dimension.png "Distribution of Each Rating Dimension"
 [diff version avg 2]: summary/dev_from_version_avg_2.png "Distribution of Deviation from Version Average - 2+ ratings"
-[diff version avg 5]: summary/dev_from_version_avg_5.png "Distribution of Deviation from Version Average - 5+ ratings"
-[diff version avg 11]: summary/dev_from_version_avg_11.png "Distribution of Deviation from Version Average - 11+ ratings"
+[diff version avg 4]: summary/dev_from_version_avg_4.png "Distribution of Deviation from Version Average - 4+ ratings"
+[diff version avg 6]: summary/dev_from_version_avg_6.png "Distribution of Deviation from Version Average - 6+ ratings"
+[logged in rating dist]: summary/logged_in_rating_dist.png "Distribution of Ratings based on Logged-In Status"
 
 
 
