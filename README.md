@@ -70,7 +70,8 @@ Most ratings tend to be high on the 1-5 scale.
 > _Figure 2_
 
 > ![Chart of distribution of rating values][rating values chart]
-<small>Footnote</small>
+
+> <small>Footnote</small>
 
 The above chart shows the distribution of average rating value for each observation. The first plot is the distribution of `rating_all_mean`, which is the mean of the 4 rating dimensions _when all 4 dimensions are rated_ (and NA otherwise), while the second plot is the distribution of `rating_any_mean`, which is the mean of all rating dimensions _that are present_ (whether there is only 1 dimension rated, or 4, etc.). Note that, for both of these histograms (and all similar histograms below), each bin does **not** include the right-most boundary **_except_** the last, which includes ratings with means from 4.5 to 5, _inclusive_. The third plot shows the proportions of each rating observation that have 1, 2, 3, or 4 dimensions rated.
   
@@ -79,8 +80,11 @@ __Over 40% of observations have ratings that average 4.5 or greater on a scale o
 Given the rest of the distribution, there is a larger-than-expected frequency of low ratings (namely, `1`s). This bimodality, where there is a peak in the ratings distribution around `[4.5, 5]` and then around `[1, 1.5)`, is relatively consistent across rating dimensions.
   
 > _Figure 3_
+
 > ![Chart of distribution of each rating dimension][rating dimension values chart]
-  
+
+    <small>Footnote</small>
+
 While the rightmost peak (at rating value of 5) is lower for "Complete", __all 4 dimensions have another peak at a rating value of 1__.
   
 Thus, it appears that raters __tend to rate pages at the extremes__, either very high or very low. This is true regardless of whether the user rates only 1 dimension or all 4 (see the [complete exploration][exploring notebook] for charts illustrating this).
