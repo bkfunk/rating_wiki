@@ -58,7 +58,8 @@ In order for ratings to be any kind of measure of page quality, people have to a
 As with a lot of data dealing with popularity (e.g. population of cities), the data appear to follow [Zipf's law](https://en.wikipedia.org/wiki/Zipf's_law) insofar as a small number of pages get a huge number of ratings, but the number of ratings quickly drops off, ending with a long right tail. Here is a chart illustrating the distribution:
 
 > _Figure 1_
-![Chart of distribution of ratings per page (in sample)][ratings per page chart]
+
+  ![Chart of distribution of ratings per page (in sample)][ratings per page chart]
 
 The average page in the sample has **7.85 ratings** in the year-long period (standard deviation of 42.1), though of course the sample is of pages with at least one rating in that period. The most-rated page in my sample is "The Hunger Games" with 2,713 ratings. The average page has **3.66 different versions** in the sample, with each version being rated an average of **1.63 times**.
 
@@ -67,7 +68,8 @@ The average page in the sample has **7.85 ratings** in the year-long period (sta
 Most ratings tend to be high on the 1-5 scale.
     
 > _Figure 2_
-![Chart of distribution of rating values][rating values chart]
+
+  ![Chart of distribution of rating values][rating values chart]
   
 The above chart shows the distribution of average rating value for each observation. The first plot is the distribution of `rating_all_mean`, which is the mean of the 4 rating dimensions _when all 4 dimensions are rated_ (and NA otherwise), while the second plot is the distribution of `rating_any_mean`, which is the mean of all rating dimensions _that are present_ (whether there is only 1 dimension rated, or 4, etc.). Note that, for both of these histograms (and all similar histograms below), each bin does **not** include the right-most boundary **_except_** the last, which includes ratings with means from 4.5 to 5, _inclusive_. The third plot shows the proportions of each rating observation that have 1, 2, 3, or 4 dimensions rated.
   
@@ -76,7 +78,7 @@ __Over 40% of observations have ratings that average 4.5 or greater on a scale o
 Given the rest of the distribution, there is a larger-than-expected frequency of low ratings (namely, `1`s). This bimodality, where there is a peak in the ratings distribution around `[4.5, 5]` and then around `[1, 1.5)`, is relatively consistent across rating dimensions.
   
 > _Figure 3_
-![Chart of distribution of each rating dimension][rating dimension values chart]
+> ![Chart of distribution of each rating dimension][rating dimension values chart]
   
 While the rightmost peak (at rating value of 5) is lower for "Complete", __all 4 dimensions have another peak at a rating value of 1__.
   
@@ -86,14 +88,15 @@ Thus, it appears that raters __tend to rate pages at the extremes__, either very
     
 Is it worth asking users to rate 4 dimensions instead of simply giving each page a 1-5 rating? **Each dimension is highly correlated with each other dimension**, indicating that a user who gives a high rating to "Complete", for example, is very likely to give a high rating to "Well-written". Here is a table of Pearson correlations between each dimension:
 
->_Table 1_
+> _Table 1_
 
->| Correlation by Dimension    | Complete     | Objective    | Trustworthy  | Well-written |
- |-----------------------------|--------------|--------------|--------------|--------------|
- | Complete                    | 1.000000     | 0.715450     | 0.749500     | 0.764108     |
- | Objective                   | **0.715450** | 1.000000     | 0.774930     | 0.738221     |
- | Trustworthy                 | **0.749500** | **0.774930** | 1.000000     | 0.753312     |
- | Well-written                | **0.764108** | **0.738221** | **0.753312** | 1.000000     |
+> | Correlation by Dimension    | Complete     | Objective    | Trustworthy  | Well-written |
+|-----------------------------|--------------|--------------|--------------|--------------|
+| Complete                    | 1.000000     | 0.715450     | 0.749500     | 0.764108     |
+| Objective                   | **0.715450** | 1.000000     | 0.774930     | 0.738221     |
+| Trustworthy                 | **0.749500** | **0.774930** | 1.000000     | 0.753312     |
+| Well-written                | **0.764108** | **0.738221** | **0.753312** | 1.000000     |
+<small>Footnote</small>
 
 But, the correlation is not perfect. So, though there is not a whole lot of new information in each dimension, there is some, and depending on the cost to the user to rate each dimension, it may still make sense to have separate categories.
     
@@ -108,7 +111,8 @@ The means for each dimension do generally differ significantly, however, using a
 |                       Trustworthy | **0.000**    | **0.000**    | X            | 0.000        |
 |                      Well-written | **0.000**    | **0.153**    | **0.000**    | X            | 
 
-> All are significantly different with the exception of "Objective" and "Well-Written", which has a p-value of 0.153.
+> <small>P-values</small>
+All are significantly different with the exception of "Objective" and "Well-Written", which has a p-value of 0.153.
 
 #### 4. **How consistent are the ratings for a single page or version?**
 
@@ -119,13 +123,13 @@ There are many ways to measure the spread of data like this, but I will focus on
 > _Table 3_
 
 > | Distribution of MAD by Page         | Count  | Mean  |  25%  |  50%  |  75%  |
-  |-------------------------------------|--------|-------|-------|-------|-------|
-  | MAD from Page Mean - All Dim.       | 49,712 | 0.956 | 0.395 | 0.820 | 1.333 |
-  | MAD from Page Median - All Dim.     | 49,712 | 0.905 | 0.250 | 0.625 | 1.250 |
-  | MAD from Page Mean - "Complete"     | 55,500 | 1.126 | 0.500 | 1.059 | 1.624 | 
-  | MAD from Page Mean - "Objective"    | 53,265 | 1.103 | 0.500 | 1.000 | 1.500 | 
-  | MAD from Page Mean - "Trustworthy"  | 56,986 | 1.117 | 0.500 | 0.981 | 1.509 | 
-  | MAD from Page Mean - "Well-Written" | 60,508 | 1.040 | 0.500 | 0.893 | 1.418 |
+|-------------------------------------|--------|-------|-------|-------|-------|
+| MAD from Page Mean - All Dim.       | 49,712 | 0.956 | 0.395 | 0.820 | 1.333 |
+| MAD from Page Median - All Dim.     | 49,712 | 0.905 | 0.250 | 0.625 | 1.250 |
+| MAD from Page Mean - "Complete"     | 55,500 | 1.126 | 0.500 | 1.059 | 1.624 | 
+| MAD from Page Mean - "Objective"    | 53,265 | 1.103 | 0.500 | 1.000 | 1.500 | 
+| MAD from Page Mean - "Trustworthy"  | 56,986 | 1.117 | 0.500 | 0.981 | 1.509 | 
+| MAD from Page Mean - "Well-Written" | 60,508 | 1.040 | 0.500 | 0.893 | 1.418 |
 
 
 Furthermore, the bimodality becomes much more pronounced when looking at pages with high numbers of ratings.
