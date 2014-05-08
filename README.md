@@ -179,6 +179,38 @@ In the dataset, the only information we have about the user rating the page is w
 
 > ![Chart of distribution of ratings based on logged-in status][logged in rating dist]
 
+Here it appears that **logged-in users are less likely to give low ratings**. When I look at the MAD for logged-in vs. not logged-in users, the logged-in users have MADs that are significantly (p-value < 0.001) lower than users who are not logged in, meaning that not only are logged-in users less likely to give low ratings, but they tend to give ratings that are closer to ratings for other logged-in users.
+
+#### 5. Do pages increase in quality over time?
+
+In my [exploratory analysis][exploring notebook], I look at the rating history for the most frequently edited and rated pages, trying to find a pattern of improving quality over time. Here, for example, are plots of the history for three pages that have many versions and high numbers of ratings per version:
+
+> ###### _Figure 8_
+
+> ![Chart of page rating history: "Arithmetic Progression"][page hist 1]
+
+> ###### _Figure 9_
+
+> ![Chart of page rating history: "List of spells in Harry Potter"][page hist 2]
+
+> ###### _Figure 10_
+
+> ![Chart of page rating history: "United States Declaration of Independence"][page hist 3]
+
+> The boxplot for each page shows the distribution of `rating_all_mean` (i.e. the mean rating when all 4 dimensions are recorded) for each version of the page in our dataset, indexed by version number (rather than, say, date the version was made). The blue line and circles trace the mean, while the red lines are the median.
+
+There certainly does not appear to be a broad upward trend. Indeed, when I look at correlations for all pages in the data set, there is almost no correlation between version number and rating value:
+
+> ###### _Table 5_
+
+> | Correlation | Mean Rating, Any Dimensions | Mean Rating, All Dimensions | "Complete" | "Objective" | "Trustworthy" | "Well-Written" |
+| nth_version | 0.063059	 | 0.063983	 | 0.096140	 | 0.035822	 | 0.051972	 | 0.049783 |
+
+
+
+----------
+
+
 [cleaning notebook]: path/to/notebook/tk
 [exploring notebook]: path/to/notebook/tk
 [ratings per page chart]: summary/ratings_per_page_chart.png "Distribution of Ratings per Page"
@@ -188,6 +220,10 @@ In the dataset, the only information we have about the user rating the page is w
 [diff version avg 4]: summary/dev_from_version_avg_4.png "Distribution of Deviation from Version Average - 4+ ratings"
 [diff version avg 6]: summary/dev_from_version_avg_6.png "Distribution of Deviation from Version Average - 6+ ratings"
 [logged in rating dist]: summary/logged_in_rating_dist.png "Distribution of Ratings based on Logged-In Status"
+[page rate hist 1]: summary/page_rate_hist1.png "Chart of page rating history: Arithmetic Progression"
+[page rate hist 2]: summary/page_rate_hist2.png "Chart of page rating history: List of spells in Harry Potter"
+[page rate hist 3]: summary/page_rate_hist3.png "Chart of page rating history: United States Declaration of Independence"
+
 
 
 
