@@ -86,25 +86,27 @@ Thus, it appears that raters __tend to rate pages at the extremes__, either very
     
 Is it worth asking users to rate 4 dimensions instead of simply giving each page a 1-5 rating? **Each dimension is highly correlated with each other dimension**, indicating that a user who gives a high rating to "Complete", for example, is very likely to give a high rating to "Well-written". Here is a table of Pearson correlations between each dimension:
 
-> _Table 1_
-> | Correlation by Dimension    | Complete     | Objective    | Trustworthy  | Well-written |
-  |-----------------------------|--------------|--------------|--------------|--------------|
-  | Complete                    | 1.000000     | 0.715450     | 0.749500     | 0.764108     |
-  | Objective                   | **0.715450** | 1.000000     | 0.774930     | 0.738221     |
-  | Trustworthy                 | **0.749500** | **0.774930** | 1.000000     | 0.753312     |
-  | Well-written                | **0.764108** | **0.738221** | **0.753312** | 1.000000     |
+>_Table 1_
+
+>| Correlation by Dimension    | Complete     | Objective    | Trustworthy  | Well-written |
+ |-----------------------------|--------------|--------------|--------------|--------------|
+ | Complete                    | 1.000000     | 0.715450     | 0.749500     | 0.764108     |
+ | Objective                   | **0.715450** | 1.000000     | 0.774930     | 0.738221     |
+ | Trustworthy                 | **0.749500** | **0.774930** | 1.000000     | 0.753312     |
+ | Well-written                | **0.764108** | **0.738221** | **0.753312** | 1.000000     |
 
 But, the correlation is not perfect. So, though there is not a whole lot of new information in each dimension, there is some, and depending on the cost to the user to rate each dimension, it may still make sense to have separate categories.
     
 The means for each dimension do generally differ significantly, however, using a paired difference test. For example, here are the p-values from a Wilcoxon test comparing each dimension to each other dimension:
 
 > _Table 2_
+
 > | Wilcoxon Signed-Rank Test P-Value | Complete     | Objective    | Trustworthy  | Well-written |
-  |-----------------------------------|--------------|--------------|--------------|--------------|
-  |                          Complete | X            | 0.000        | 0.000        | 0.000        |
-  |                         Objective | **0.000**    | X            | 0.000        | 0.153        |
-  |                       Trustworthy | **0.000**    | **0.000**    | X            | 0.000        |
-  |                      Well-written | **0.000**    | **0.153**    | **0.000**    | X            | 
+|-----------------------------------|--------------|--------------|--------------|--------------|
+|                          Complete | X            | 0.000        | 0.000        | 0.000        |
+|                         Objective | **0.000**    | X            | 0.000        | 0.153        |
+|                       Trustworthy | **0.000**    | **0.000**    | X            | 0.000        |
+|                      Well-written | **0.000**    | **0.153**    | **0.000**    | X            | 
 
 > All are significantly different with the exception of "Objective" and "Well-Written", which has a p-value of 0.153.
 
@@ -115,6 +117,7 @@ If ratings are indeed useful measures of page quality, and if page quality is so
 There are many ways to measure the spread of data like this, but I will focus on the [_mean absolute deviation_ (MAD)](https://en.wikipedia.org/wiki/Absolute_deviation), which is simply the mean of the absolute value of the difference between each observation's value and the mean or median value. Given the fact that both the mean and median rating is quite high, and that rating values are truncated at 5, the distance from the point of central tendency (mean or median) can be higher for lower ratings. Thus it doesn't make as much sense to use the standard deviation, which weights bigger deviations more (since it's the square root of the mean _squared_ error). The MAD can be easily understood as the average difference between a particular rating and the mean/median for all ratings for that page/version.
 
 > _Table 3_
+
 > | Distribution of MAD by Page         | Count  | Mean  |  25%  |  50%  |  75%  |
   |-------------------------------------|--------|-------|-------|-------|-------|
   | MAD from Page Mean - All Dim.       | 49,712 | 0.956 | 0.395 | 0.820 | 1.333 |
