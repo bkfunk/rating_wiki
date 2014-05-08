@@ -59,7 +59,7 @@ As with a lot of data dealing with popularity (e.g. population of cities), the d
 
 > _Figure 1_
 
-  ![Chart of distribution of ratings per page (in sample)][ratings per page chart]
+>  ![Chart of distribution of ratings per page (in sample)][ratings per page chart]
 
 The average page in the sample has **7.85 ratings** in the year-long period (standard deviation of 42.1), though of course the sample is of pages with at least one rating in that period. The most-rated page in my sample is "The Hunger Games" with 2,713 ratings. The average page has **3.66 different versions** in the sample, with each version being rated an average of **1.63 times**.
 
@@ -68,9 +68,9 @@ The average page in the sample has **7.85 ratings** in the year-long period (sta
 Most ratings tend to be high on the 1-5 scale.
     
 > _Figure 2_
+![Chart of distribution of rating values][rating values chart]
+<small>Footnote</small>
 
-  ![Chart of distribution of rating values][rating values chart]
-  
 The above chart shows the distribution of average rating value for each observation. The first plot is the distribution of `rating_all_mean`, which is the mean of the 4 rating dimensions _when all 4 dimensions are rated_ (and NA otherwise), while the second plot is the distribution of `rating_any_mean`, which is the mean of all rating dimensions _that are present_ (whether there is only 1 dimension rated, or 4, etc.). Note that, for both of these histograms (and all similar histograms below), each bin does **not** include the right-most boundary **_except_** the last, which includes ratings with means from 4.5 to 5, _inclusive_. The third plot shows the proportions of each rating observation that have 1, 2, 3, or 4 dimensions rated.
   
 __Over 40% of observations have ratings that average 4.5 or greater on a scale of 5__. Furthermore, __almost 70% of users rated all 4 dimensions__, while about 25% rated only one dimension, and very few rated 2 or 3. When all four dimensions are rated, the **mean rating is 3.66**, with a **standard deviation of 1.34**, and the **median is 4.0**.
