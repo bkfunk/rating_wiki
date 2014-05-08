@@ -226,8 +226,8 @@ I am currently working on merging in data about the actual edits (and other data
 ----------
 
 
-[cleaning notebook]: path/to/notebook/tk
-[exploring notebook]: path/to/notebook/tk
+[cleaning notebook]: Cleaning_Wiki_Ratings.html
+[exploring notebook]: exploring_wiki_ratings.html
 [ratings per page chart]: summary/ratings_per_page_chart.png "Distribution of Ratings per Page"
 [rating values chart]: summary/dist_of_ratings_and_dims.png "Distribution of Rating Values and Dimensions Rated"
 [rating dimension values chart]: summary/dist_of_each_dimension.png "Distribution of Each Rating Dimension"
