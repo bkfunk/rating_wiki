@@ -187,15 +187,15 @@ In my [exploratory analysis][exploring notebook], I look at the rating history f
 
 > ###### _Figure 8_
 
-> ![Chart of page rating history: "Arithmetic Progression"][page hist 1]
+> ![Chart of page rating history: "Arithmetic Progression"][page rate hist 1]
 
 > ###### _Figure 9_
 
-> ![Chart of page rating history: "List of spells in Harry Potter"][page hist 2]
+> ![Chart of page rating history: "List of spells in Harry Potter"][page rate hist 2]
 
 > ###### _Figure 10_
 
-> ![Chart of page rating history: "United States Declaration of Independence"][page hist 3]
+> ![Chart of page rating history: "United States Declaration of Independence"][page rate hist 3]
 
 > The boxplot for each page shows the distribution of `rating_all_mean` (i.e. the mean rating when all 4 dimensions are recorded) for each version of the page in our dataset, indexed by version number (rather than, say, date the version was made). The blue line and circles trace the mean, while the red lines are the median.
 
@@ -226,8 +226,8 @@ I am currently working on merging in data about the actual edits (and other data
 ----------
 
 
-[cleaning notebook]: path/to/notebook/tk
-[exploring notebook]: path/to/notebook/tk
+[cleaning notebook]: Cleaning_Wiki_Ratings.html
+[exploring notebook]: exploring_wiki_ratings.html
 [ratings per page chart]: summary/ratings_per_page_chart.png "Distribution of Ratings per Page"
 [rating values chart]: summary/dist_of_ratings_and_dims.png "Distribution of Rating Values and Dimensions Rated"
 [rating dimension values chart]: summary/dist_of_each_dimension.png "Distribution of Each Rating Dimension"
