@@ -71,9 +71,7 @@ Most ratings tend to be high on the 1-5 scale.
 
 > ![Chart of distribution of rating values][rating values chart]
 
-> <small>Footnote</small>
-
-The above chart shows the distribution of average rating value for each observation. The first plot is the distribution of `rating_all_mean`, which is the mean of the 4 rating dimensions _when all 4 dimensions are rated_ (and NA otherwise), while the second plot is the distribution of `rating_any_mean`, which is the mean of all rating dimensions _that are present_ (whether there is only 1 dimension rated, or 4, etc.). Note that, for both of these histograms (and all similar histograms below), each bin does **not** include the right-most boundary **_except_** the last, which includes ratings with means from 4.5 to 5, _inclusive_. The third plot shows the proportions of each rating observation that have 1, 2, 3, or 4 dimensions rated.
+> The above chart shows the distribution of average rating value for each observation. The first plot is the distribution of `rating_all_mean`, which is the mean of the 4 rating dimensions _when all 4 dimensions are rated_ (and NA otherwise), while the second plot is the distribution of `rating_any_mean`, which is the mean of all rating dimensions _that are present_ (whether there is only 1 dimension rated, or 4, etc.). Note that, for both of these histograms (and all similar histograms below), each bin does **not** include the right-most boundary **_except_** the last, which includes ratings with means from 4.5 to 5, _inclusive_. The third plot shows the proportions of each rating observation that have 1, 2, 3, or 4 dimensions rated.
   
 __Over 40% of observations have ratings that average 4.5 or greater on a scale of 5__. Furthermore, __almost 70% of users rated all 4 dimensions__, while about 25% rated only one dimension, and very few rated 2 or 3. When all four dimensions are rated, the **mean rating is 3.66**, with a **standard deviation of 1.34**, and the **median is 4.0**.
   
@@ -82,8 +80,6 @@ Given the rest of the distribution, there is a larger-than-expected frequency of
 > _Figure 3_
 
 > ![Chart of distribution of each rating dimension][rating dimension values chart]
-
-    <small>Footnote</small>
 
 While the rightmost peak (at rating value of 5) is lower for "Complete", __all 4 dimensions have another peak at a rating value of 1__.
   
@@ -95,13 +91,13 @@ Is it worth asking users to rate 4 dimensions instead of simply giving each page
 
 > _Table 1_
 
-> | Correlation by Dimension    | Complete     | Objective    | Trustworthy  | Well-written |
+> | Correlation by Dimension  | Complete     | Objective    | Trustworthy  | Well-written |
 |-----------------------------|--------------|--------------|--------------|--------------|
 | Complete                    | 1.000000     | 0.715450     | 0.749500     | 0.764108     |
 | Objective                   | **0.715450** | 1.000000     | 0.774930     | 0.738221     |
 | Trustworthy                 | **0.749500** | **0.774930** | 1.000000     | 0.753312     |
 | Well-written                | **0.764108** | **0.738221** | **0.753312** | 1.000000     |
-<small>Footnote</small>
+
 
 But, the correlation is not perfect. So, though there is not a whole lot of new information in each dimension, there is some, and depending on the cost to the user to rate each dimension, it may still make sense to have separate categories.
     
@@ -109,14 +105,15 @@ The means for each dimension do generally differ significantly, however, using a
 
 > _Table 2_
 
-> | Wilcoxon Signed-Rank Test P-Value | Complete     | Objective    | Trustworthy  | Well-written |
+> | Wilcoxon Signed-Rank Test       | Complete     | Objective    | Trustworthy  | Well-written |
 |-----------------------------------|--------------|--------------|--------------|--------------|
 |                          Complete | X            | 0.000        | 0.000        | 0.000        |
 |                         Objective | **0.000**    | X            | 0.000        | 0.153        |
 |                       Trustworthy | **0.000**    | **0.000**    | X            | 0.000        |
 |                      Well-written | **0.000**    | **0.153**    | **0.000**    | X            | 
 
-> <small>P-values</small>
+> Figures reported are **p-values** from a Wilcoxon Signed-Rank test performed for each combination of rating dimensions.
+
 All are significantly different with the exception of "Objective" and "Well-Written", which has a p-value of 0.153.
 
 #### 4. **How consistent are the ratings for a single page or version?**
@@ -127,14 +124,27 @@ There are many ways to measure the spread of data like this, but I will focus on
 
 > _Table 3_
 
-> | Distribution of MAD by Page         | Count  | Mean  |  25%  |  50%  |  75%  |
-|-------------------------------------|--------|-------|-------|-------|-------|
-| MAD from Page Mean - All Dim.       | 49,712 | 0.956 | 0.395 | 0.820 | 1.333 |
-| MAD from Page Median - All Dim.     | 49,712 | 0.905 | 0.250 | 0.625 | 1.250 |
-| MAD from Page Mean - "Complete"     | 55,500 | 1.126 | 0.500 | 1.059 | 1.624 | 
-| MAD from Page Mean - "Objective"    | 53,265 | 1.103 | 0.500 | 1.000 | 1.500 | 
-| MAD from Page Mean - "Trustworthy"  | 56,986 | 1.117 | 0.500 | 0.981 | 1.509 | 
-| MAD from Page Mean - "Well-Written" | 60,508 | 1.040 | 0.500 | 0.893 | 1.418 |
+> | Distribution of MAD by Page                     | Count  | Mean  |  25%  |  50%  |  75%  |
+|---------------------------------------------------|--------|-------|-------|-------|-------|
+| Abs. Dev. from Page Mean - Mean of All Dim.       | 49,712 | 0.956 | 0.395 | 0.820 | 1.333 |
+| Abs. Dev. from Page Median - Mean of All Dim.     | 49,712 | 0.905 | 0.250 | 0.625 | 1.250 |
+| Abs. Dev. from Page Mean - "Complete"             | 55,500 | 1.126 | 0.500 | 1.059 | 1.624 | 
+| Abs. Dev. from Page Mean - "Objective"            | 53,265 | 1.103 | 0.500 | 1.000 | 1.500 | 
+| Abs. Dev. from Page Mean - "Trustworthy"          | 56,986 | 1.117 | 0.500 | 0.981 | 1.509 | 
+| Abs. Dev. from Page Mean - "Well-Written"         | 60,508 | 1.040 | 0.500 | 0.893 | 1.418 |
+
+> Only pages with at least two ratings were included for this table. The computation for the above table is as follows: 1) Compute the mean/median rating for all observations for a given page; 2) for each observation, calculate the absolute value of the difference between that observation's rating for the particular dimension (or the mean of all dimensions). Thus, the `Mean` column constitutes the MAD for the given dimension. Note that for the first two rows, labeled `Mean of All Dim.`, all observations with less than all 4 dimensions rated are excluded; for the remaining rows, all non-missing ratings for that dimension are included, regardless of whether other dimensions were also rated in that observation.
+
+> _Table 4_
+
+> | Distribution of MAD by Version                     | Count  | Mean  |  25%  |  50%  |  75%  |
+|------------------------------===---------------------|--------|-------|-------|-------|-------|
+| Abs. Dev. from Version Mean - Mean of All Dim.       | 34515 | 0.817 | 0.275 | 0.649 | 1.200 |
+| Abs. Dev. from Version Median - Mean of All Dim.     | 34515 | 0.758 | 0.125 | 0.500 | 1.125 |
+| Abs. Dev. from Version Mean - "Complete"             | 37403 | 0.960 | 0.400 | 0.826 | 1.500 | 
+| Abs. Dev. from Version Mean - "Objective"            | 36317 | 0.933 | 0.333 | 0.750 | 1.400 | 
+| Abs. Dev. from Version Mean - "Trustworthy"          | 38216 | 0.958 | 0.333 | 0.800 | 1.484 | 
+| Abs. Dev. from Version Mean - "Well-Written"         | 39920 | 0.902 | 0.333 | 0.722 | 1.333 |
 
 
 Furthermore, the bimodality becomes much more pronounced when looking at pages with high numbers of ratings.
