@@ -204,6 +204,7 @@ There certainly does not appear to be a broad upward trend. Indeed, when I look 
 > ###### _Table 5_
 
 > | Correlation | Mean Rating, Any Dimensions | Mean Rating, All Dimensions | "Complete" | "Objective" | "Trustworthy" | "Well-Written" |
+|-------------|--------------|-----------|-----------|-----------|-----------|----------|
 | nth_version | 0.063059	 | 0.063983	 | 0.096140	 | 0.035822	 | 0.051972	 | 0.049783 |
 
 
