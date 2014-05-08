@@ -31,16 +31,484 @@
         <p><a href="http://bkfunk.github.io">« Brian Karfunkel home</a></p>
 
 <h1>
-<a name="rating_wiki" class="anchor" href="#rating_wiki"><span class="octicon octicon-link"></span></a>rating_wiki</h1>
+<a name="rating-wikipedia" class="anchor" href="#rating-wikipedia"><span class="octicon octicon-link"></span></a>Rating Wikipedia</h1>
+
+<h2>
+<a name="overview" class="anchor" href="#overview"><span class="octicon octicon-link"></span></a><strong>Overview</strong>
+</h2>
 
 <p>What makes a good Wikipedia page?</p>
 
 <p>Using data on ratings for Wikipedia pages, I try to explore that question.</p>
 
+<h3>
+<a name="about-the-data" class="anchor" href="#about-the-data"><span class="octicon octicon-link"></span></a>About the data</h3>
+
 <p>Wikimedia provides a one-year dump of all ratings on Wikipedia, from July 22, 2011 up to July 22, 2012. This file contains almost 50 million records of almost 12 million unique ratings (NB: there are 4 dimensions for each rating, so one person rating an article will provide up to 4 data points).</p>
 
 <p>The file (approx 441.6 MB gzipped) is hosted here:
 <a href="http://datahub.io/dataset/wikipedia-article-ratings/resource/8a218330-6ac3-40d1-ae0d-4224f57db214">http://datahub.io/dataset/wikipedia-article-ratings/resource/8a218330-6ac3-40d1-ae0d-4224f57db214</a></p>
+
+<p>There are 4 dimensions on which a page could be rated:</p>
+
+<ol>
+<li>Trustworthy (<code>trust</code> in my cleaned dataset)</li>
+<li>Objective (<code>obj</code>)</li>
+<li>Complete (<code>comp</code>)</li>
+<li>Well-written (<code>writ</code>)</li>
+</ol><p>A user could rate <em>any</em> or <em>all</em> dimensions for each page. In the data provided, in addition to the values for each rating dimension, we have:</p>
+
+<ul>
+<li>Timestamp when the rating was submitted</li>
+<li>
+<code>page_id</code> and page title, identifying the page being rated</li>
+<li>
+<code>rev_id</code> identifying the particular version (i.e. "revision") of the page that was rated</li>
+<li>An indicator variable (<code>1</code> or <code>0</code>) indicating whether the user rating the page was logged in (the actual user's identity is anonymized out of the data)</li>
+</ul><p>Given the anonymized data, it is impossible to know whether users were able to rate a page more than once, but given the fact that most of the ratings come from non-logged-in users, it is certainly possible.</p>
+
+<h3>
+<a name="motivating-questions" class="anchor" href="#motivating-questions"><span class="octicon octicon-link"></span></a>Motivating questions</h3>
+
+<p>My goal for this analysis was to first analyze the ratings data itself to see whether the ratings seemed to provide a useful measure of page quality. Then, I wanted to combine the ratings data with data on the actual page versions rated to look at how different kinds of edits affect the page's rating. Namely, is there a way to quantify which edits do the most to improve a page in any or all of the four rating dimensions? For example, are big edits (based on number of characters edited) better than small edits? Do small edits improve score for quality of writing (<code>writ</code>), while big edits improve completeness (<code>comp</code>)? Are logged-in users better editors than anonymous users?</p>
+
+<p>If there were a way to identify particularly helpful edits in terms of improving article quality, then Wikipedia could:</p>
+
+<ul>
+<li>
+<strong>Give feedback</strong> to editors to help them learn to make the most effective edits, and give editors a sense of quantified accomplishment to keep them engaged</li>
+<li>
+<strong>Highlight pages</strong> in particular need of quality improvements for editors that are particularly good at providing such improvements (for example, prioritizing articles that are poorly written for editors that are good at revising prose and copyediting)</li>
+<li>Create more bots to make certain <strong>algorithmic edits</strong>
+</li>
+<li>
+<strong>Identify editors</strong> that are malicious or that consistently degrade page quality</li>
+</ul><h2>
+<a name="cleaning-data" class="anchor" href="#cleaning-data"><span class="octicon octicon-link"></span></a><strong>Cleaning Data</strong>
+</h2>
+
+<p>The first step was cleaning the ratings data. The iPython Notebook showing all the cleaning code and output is <a href="path/to/notebook/tk">here</a>. In addition to reshaping the data so that each rating has one observation, rather than four, I cut the data to a sample of some 79,000 ratings for 10,000 different pages.</p>
+
+<h2>
+<a name="exploring-data" class="anchor" href="#exploring-data"><span class="octicon octicon-link"></span></a><strong>Exploring Data</strong>
+</h2>
+
+<p>My exploratory analysis is documented <a href="path/to/notebook/tk">here</a>. I start by looking at the ratings themselves.</p>
+
+<h4>
+<a name="1-how-is-the-number-of-ratings-distributed-across-pages-and-versions-revisions-of-pages" class="anchor" href="#1-how-is-the-number-of-ratings-distributed-across-pages-and-versions-revisions-of-pages"><span class="octicon octicon-link"></span></a>1. <strong>How is the number of ratings distributed across pages and versions (revisions) of pages?</strong>
+</h4>
+
+<p>In order for ratings to be any kind of measure of page quality, people have to actually rate pages. How many ratings to pages get in the year-long sample? And do some pages get significantly more than others?</p>
+
+<p>As with a lot of data dealing with popularity (e.g. population of cities), the data appear to follow <a href="https://en.wikipedia.org/wiki/Zipf's_law">Zipf's law</a> insofar as a small number of pages get a huge number of ratings, but the number of ratings quickly drops off, ending with a long right tail. Here is a chart illustrating the distribution:</p>
+
+<blockquote>
+<h6>
+<a name="figure-1" class="anchor" href="#figure-1"><span class="octicon octicon-link"></span></a><em>Figure 1</em>
+</h6>
+
+<p><img src="summary/ratings_per_page_chart.png" alt="Chart of distribution of ratings per page (in sample)" title="Distribution of Ratings per Page"></p>
+</blockquote>
+
+<p>The average page in the sample has <strong>7.85 ratings</strong> in the year-long period (standard deviation of 42.1), though of course the sample is of pages with at least one rating in that period. The most-rated page in my sample is "The Hunger Games" with 2,713 ratings. The average page has <strong>3.66 different versions</strong> in the sample, with each version being rated an average of <strong>1.63 times</strong>.</p>
+
+<h4>
+<a name="2-how-is-the-value-of-ratings-distributed-across-pages-and-versions" class="anchor" href="#2-how-is-the-value-of-ratings-distributed-across-pages-and-versions"><span class="octicon octicon-link"></span></a>2. <strong>How is the value of ratings distributed across pages and versions?</strong>
+</h4>
+
+<p>Most ratings tend to be high on the 1-5 scale.</p>
+
+<blockquote>
+<h6>
+<a name="figure-2" class="anchor" href="#figure-2"><span class="octicon octicon-link"></span></a><em>Figure 2</em>
+</h6>
+
+<p><img src="summary/dist_of_ratings_and_dims.png" alt="Chart of distribution of rating values" title="Distribution of Rating Values and Dimensions Rated"></p>
+
+<p>The above chart shows the distribution of average rating value for each observation. The first plot is the distribution of <code>rating_all_mean</code>, which is the mean of the 4 rating dimensions <em>when all 4 dimensions are rated</em> (and NA otherwise), while the second plot is the distribution of <code>rating_any_mean</code>, which is the mean of all rating dimensions <em>that are present</em> (whether there is only 1 dimension rated, or 4, etc.). Note that, for both of these histograms (and all similar histograms below), each bin does <strong>not</strong> include the right-most boundary <strong><em>except</em></strong> the last, which includes ratings with means from 4.5 to 5, <em>inclusive</em>. The third plot shows the proportions of each rating observation that have 1, 2, 3, or 4 dimensions rated.</p>
+</blockquote>
+
+<p><strong>Over 40% of observations have ratings that average 4.5 or greater on a scale of 5</strong>. Furthermore, <strong>almost 70% of users rated all 4 dimensions</strong>, while about 25% rated only one dimension, and very few rated 2 or 3. When all four dimensions are rated, the <strong>mean rating is 3.66</strong>, with a <strong>standard deviation of 1.34</strong>, and the <strong>median is 4.0</strong>.</p>
+
+<p>Given the rest of the distribution, there is a larger-than-expected frequency of low ratings (namely, <code>1</code>s). This bimodality, where there is a peak in the ratings distribution around <code>[4.5, 5]</code> and then around <code>[1, 1.5)</code>, is relatively consistent across rating dimensions.</p>
+
+<blockquote>
+<h6>
+<a name="figure-3" class="anchor" href="#figure-3"><span class="octicon octicon-link"></span></a><em>Figure 3</em>
+</h6>
+
+<p><img src="summary/dist_of_each_dimension.png" alt="Chart of distribution of each rating dimension" title="Distribution of Each Rating Dimension"></p>
+</blockquote>
+
+<p>While the rightmost peak (at rating value of 5) is lower for "Complete", <strong>all 4 dimensions have another peak at a rating value of 1</strong>.</p>
+
+<p>Thus, it appears that raters <strong>tend to rate pages at the extremes</strong>, either very high or very low. This is true regardless of whether the user rates only 1 dimension or all 4 (see the <a href="path/to/notebook/tk">complete exploration</a> for charts illustrating this).</p>
+
+<h4>
+<a name="3-are-rating-dimensions-meaningful" class="anchor" href="#3-are-rating-dimensions-meaningful"><span class="octicon octicon-link"></span></a>3. <strong>Are rating dimensions meaningful?</strong>
+</h4>
+
+<p>Is it worth asking users to rate 4 dimensions instead of simply giving each page a 1-5 rating? <strong>Each dimension is highly correlated with each other dimension</strong>, indicating that a user who gives a high rating to "Complete", for example, is very likely to give a high rating to "Well-written". Here is a table of Pearson correlations between each dimension:</p>
+
+<blockquote>
+<h6>
+<a name="table-1" class="anchor" href="#table-1"><span class="octicon octicon-link"></span></a><em>Table 1</em>
+</h6>
+
+<table>
+<thead><tr>
+<th>Correlation by Dimension</th>
+<th>Complete</th>
+<th>Objective</th>
+<th>Trustworthy</th>
+<th>Well-written</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Complete</td>
+<td>1.000000</td>
+<td>0.715450</td>
+<td>0.749500</td>
+<td>0.764108</td>
+</tr>
+<tr>
+<td>Objective</td>
+<td><strong>0.715450</strong></td>
+<td>1.000000</td>
+<td>0.774930</td>
+<td>0.738221</td>
+</tr>
+<tr>
+<td>Trustworthy</td>
+<td><strong>0.749500</strong></td>
+<td><strong>0.774930</strong></td>
+<td>1.000000</td>
+<td>0.753312</td>
+</tr>
+<tr>
+<td>Well-written</td>
+<td><strong>0.764108</strong></td>
+<td><strong>0.738221</strong></td>
+<td><strong>0.753312</strong></td>
+<td>1.000000</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+
+<p>But, the correlation is not perfect. So, though there is not a whole lot of new information in each dimension, there is some, and depending on the cost to the user to rate each dimension, it may still make sense to have separate categories.</p>
+
+<p>The means for each dimension do generally differ significantly, however, using a paired difference test. For example, here are the p-values from a Wilcoxon test comparing each dimension to each other dimension:</p>
+
+<blockquote>
+<h6>
+<a name="table-2" class="anchor" href="#table-2"><span class="octicon octicon-link"></span></a><em>Table 2</em>
+</h6>
+
+<table>
+<thead><tr>
+<th>Wilcoxon Signed-Rank Test</th>
+<th>Complete</th>
+<th>Objective</th>
+<th>Trustworthy</th>
+<th>Well-written</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Complete</td>
+<td>X</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Objective</td>
+<td><strong>0.000</strong></td>
+<td>X</td>
+<td>0.000</td>
+<td>0.153</td>
+</tr>
+<tr>
+<td>Trustworthy</td>
+<td><strong>0.000</strong></td>
+<td><strong>0.000</strong></td>
+<td>X</td>
+<td>0.000</td>
+</tr>
+<tr>
+<td>Well-written</td>
+<td><strong>0.000</strong></td>
+<td><strong>0.153</strong></td>
+<td><strong>0.000</strong></td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+<p>Figures reported are <strong>p-values</strong> from a Wilcoxon Signed-Rank test performed for each combination of rating dimensions.</p>
+</blockquote>
+
+<p>All are significantly different with the exception of "Objective" and "Well-Written", which has a p-value of 0.153.</p>
+
+<h4>
+<a name="4-how-consistent-are-the-ratings-for-a-single-page-or-version" class="anchor" href="#4-how-consistent-are-the-ratings-for-a-single-page-or-version"><span class="octicon octicon-link"></span></a>4. <strong>How consistent are the ratings for a single page or version?</strong>
+</h4>
+
+<p>If ratings are indeed useful measures of page quality, and if page quality is something that is consistent for various users of Wikipedia, then we would hope that ratings cluster around the mean. That is, we would want most people to tend to give ratings that are close to a certain average. The bimodality reflected in #2 above might indicate that this is not the case, however.</p>
+
+<p>There are many ways to measure the spread of data like this, but I will focus on the <a href="https://en.wikipedia.org/wiki/Absolute_deviation"><em>mean absolute deviation</em> (MAD)</a>, which is simply the mean of the absolute value of the difference between each observation's value and the mean or median value. Given the fact that both the mean and median rating is quite high, and that rating values are truncated at 5, the distance from the point of central tendency (mean or median) can be higher for lower ratings. Thus it doesn't make as much sense to use the standard deviation, which weights bigger deviations more (since it's the square root of the mean <em>squared</em> error). The MAD can be easily understood as the average difference between a particular rating and the mean/median for all ratings for that page/version.</p>
+
+<blockquote>
+<h6>
+<a name="table-3" class="anchor" href="#table-3"><span class="octicon octicon-link"></span></a><em>Table 3</em>
+</h6>
+
+<table>
+<thead><tr>
+<th>Distribution of MAD by Page</th>
+<th>Count</th>
+<th><strong>Mean</strong></th>
+<th>25%</th>
+<th>50%</th>
+<th>75%</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Abs. Dev. from Page Mean - Mean of All Dim.</td>
+<td>49,712</td>
+<td><strong>0.956</strong></td>
+<td>0.395</td>
+<td>0.820</td>
+<td>1.333</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Page Median - Mean of All Dim.</td>
+<td>49,712</td>
+<td><strong>0.905</strong></td>
+<td>0.250</td>
+<td>0.625</td>
+<td>1.250</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Page Mean - "Complete"</td>
+<td>55,500</td>
+<td><strong>1.126</strong></td>
+<td>0.500</td>
+<td>1.059</td>
+<td>1.624</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Page Mean - "Objective"</td>
+<td>53,265</td>
+<td><strong>1.103</strong></td>
+<td>0.500</td>
+<td>1.000</td>
+<td>1.500</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Page Mean - "Trustworthy"</td>
+<td>56,986</td>
+<td><strong>1.117</strong></td>
+<td>0.500</td>
+<td>0.981</td>
+<td>1.509</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Page Mean - "Well-Written"</td>
+<td>60,508</td>
+<td><strong>1.040</strong></td>
+<td>0.500</td>
+<td>0.893</td>
+<td>1.418</td>
+</tr>
+</tbody>
+</table>
+<p>Only pages with at least 2 ratings were included for this table. The computation for the above table is as follows: 1) Compute the mean/median rating for all observations for a given page; 2) for each observation, calculate the absolute value of the difference between that observation's rating for the particular dimension (or the mean of all dimensions). Thus, the <code>Mean</code> column constitutes the MAD for the given dimension. Note that for the first two rows, labeled <code>Mean of All Dim.</code>, all observations with less than all 4 dimensions rated are excluded; for the remaining rows, all non-missing ratings for that dimension are included, regardless of whether other dimensions were also rated in that observation.</p>
+
+<hr>
+<h6>
+<a name="table-4" class="anchor" href="#table-4"><span class="octicon octicon-link"></span></a><em>Table 4</em>
+</h6>
+
+<table>
+<thead><tr>
+<th>Distribution of MAD by Version</th>
+<th>Count</th>
+<th><strong>Mean</strong></th>
+<th>25%</th>
+<th>50%</th>
+<th>75%</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>Abs. Dev. from Version Mean - Mean of All Dim.</td>
+<td>34515</td>
+<td><strong>0.817</strong></td>
+<td>0.275</td>
+<td>0.649</td>
+<td>1.200</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Version Median - Mean of All Dim.</td>
+<td>34515</td>
+<td><strong>0.758</strong></td>
+<td>0.125</td>
+<td>0.500</td>
+<td>1.125</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Version Mean - "Complete"</td>
+<td>37403</td>
+<td><strong>0.960</strong></td>
+<td>0.400</td>
+<td>0.826</td>
+<td>1.500</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Version Mean - "Objective"</td>
+<td>36317</td>
+<td><strong>0.933</strong></td>
+<td>0.333</td>
+<td>0.750</td>
+<td>1.400</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Version Mean - "Trustworthy"</td>
+<td>38216</td>
+<td><strong>0.958</strong></td>
+<td>0.333</td>
+<td>0.800</td>
+<td>1.484</td>
+</tr>
+<tr>
+<td>Abs. Dev. from Version Mean - "Well-Written"</td>
+<td>39920</td>
+<td><strong>0.902</strong></td>
+<td>0.333</td>
+<td>0.722</td>
+<td>1.333</td>
+</tr>
+</tbody>
+</table>
+<p>Only versions with at least 2 ratings were included for this table. See also note to Table 3 above.</p>
+</blockquote>
+
+<p>Even though the sample only covers a year, it is of course possible that pages would differ significantly between ratings. However, when looking at <em>versions</em> of pages, we see MADs that are smaller, but still relatively large in magnitude. To put this in perspective, consider a version of an article that has only 2 ratings; Table 4 indicates that the average of all 4 rating dimensions for those two ratings would tend to be about 1.6 points apart on a 1-5 scale, meaning that if one rating was a 5 (very high), on average the other rating would be a 3.4 (very mediocre, given the fact that most ratings are, in fact, 4s or 5s).</p>
+
+<p>To further illustrate this, here are plots of the distributions of the <em>non-absolute</em> differences between each observation and the average for that version:</p>
+
+<blockquote>
+<h6>
+<a name="figure-4" class="anchor" href="#figure-4"><span class="octicon octicon-link"></span></a><em>Figure 4</em>
+</h6>
+
+<p><img src="summary/dev_from_version_avg_2.png" alt="Chart of distribution of deviation from version average" title="Distribution of Deviation from Version Average - 2+ ratings"></p>
+
+<h6>
+<a name="figure-5" class="anchor" href="#figure-5"><span class="octicon octicon-link"></span></a><em>Figure 5</em>
+</h6>
+
+<p><img src="summary/dev_from_version_avg_4.png" alt="Chart of distribution of deviation from version average" title="Distribution of Deviation from Version Average - 4+ ratings"></p>
+
+<h6>
+<a name="figure-6" class="anchor" href="#figure-6"><span class="octicon octicon-link"></span></a><em>Figure 6</em>
+</h6>
+
+<p><img src="summary/dev_from_version_avg_6.png" alt="Chart of distribution of deviation from version average" title="Distribution of Deviation from Version Average - 6+ ratings"></p>
+
+<p>The cutoffs of 2, 4, and 6 were chosen because they represent 100%, 25%, and 10%, respectively, of the sample of versions with at least 2 ratings.</p>
+</blockquote>
+
+<p>Though there initially appears to be just a rightward skew to the distributions, as we get more ratings per version, the familiar bimodal pattern begins to show up again. Furthermore, the bimodality becomes much more pronounced when looking at versions with even higher numbers of ratings, and it is also more pronounced when looking at pages, rather than versions of pages (no doubt in part because pages tend to have higher numbers of ratings per page, and thus there is more information).</p>
+
+<p>On the one hand, the fact that this bimodality is more clear with a higher <code>N</code> (i.e. more ratings per version) could indicate that we simply have more information and thus have clearer picture of what could be a fundamental, bimodal pattern. However, it could also mean that pages with many ratings are in some way different; for example, pages with higher ratings could be more <em>controversial</em>, leading some to simply give low ratings because they disagree with the <em>content of the page itself</em>, rather than judging the completeness, trustworthiness, objectivity, or quality of writing.</p>
+
+<h4>
+<a name="5-do-different-kinds-of-users-rate-pages-differently" class="anchor" href="#5-do-different-kinds-of-users-rate-pages-differently"><span class="octicon octicon-link"></span></a>5. Do different kinds of users rate pages differently?</h4>
+
+<p>In the dataset, the only information we have about the user rating the page is whether they are logged in or not. Still, given that most users are not logged in, being logged in could indicate that the user is more aware of the standards of Wikipedia, and thus is a better judge of article quality. It could also be that logged-in users are more invested in the quality of Wikipedia and thus will put more effort into providing a full and accurate rating. Still another option is that logged-in users are more likely to have edited the pages themselves, and thus may be either rating their own work or giving a low rating before deciding to edit the page.</p>
+
+<blockquote>
+<h6>
+<a name="figure-7" class="anchor" href="#figure-7"><span class="octicon octicon-link"></span></a><em>Figure 7</em>
+</h6>
+
+<p><img src="summary/logged_in_rating_dist.png" alt="Chart of distribution of ratings based on logged-in status" title="Distribution of Ratings based on Logged-In Status"></p>
+</blockquote>
+
+<p>Here it appears that <strong>logged-in users are less likely to give low ratings</strong>. When I look at the MAD for logged-in vs. not logged-in users, the logged-in users have MADs that are significantly (p-value &lt; 0.001) lower than users who are not logged in, meaning that not only are logged-in users less likely to give low ratings, but they tend to give ratings that are closer to ratings for other logged-in users.</p>
+
+<h4>
+<a name="5-do-pages-increase-in-quality-over-time" class="anchor" href="#5-do-pages-increase-in-quality-over-time"><span class="octicon octicon-link"></span></a>5. Do pages increase in quality over time?</h4>
+
+<p>In my <a href="path/to/notebook/tk">exploratory analysis</a>, I look at the rating history for the most frequently edited and rated pages, trying to find a pattern of improving quality over time. Here, for example, are plots of the history for three pages that have many versions and high numbers of ratings per version:</p>
+
+<blockquote>
+<h6>
+<a name="figure-8" class="anchor" href="#figure-8"><span class="octicon octicon-link"></span></a><em>Figure 8</em>
+</h6>
+
+<p>![Chart of page rating history: "Arithmetic Progression"][page hist 1]</p>
+
+<h6>
+<a name="figure-9" class="anchor" href="#figure-9"><span class="octicon octicon-link"></span></a><em>Figure 9</em>
+</h6>
+
+<p>![Chart of page rating history: "List of spells in Harry Potter"][page hist 2]</p>
+
+<h6>
+<a name="figure-10" class="anchor" href="#figure-10"><span class="octicon octicon-link"></span></a><em>Figure 10</em>
+</h6>
+
+<p>![Chart of page rating history: "United States Declaration of Independence"][page hist 3]</p>
+
+<p>The boxplot for each page shows the distribution of <code>rating_all_mean</code> (i.e. the mean rating when all 4 dimensions are recorded) for each version of the page in our dataset, indexed by version number (rather than, say, date the version was made). The blue line and circles trace the mean, while the red lines are the median.</p>
+</blockquote>
+
+<p>There certainly does not appear to be a broad upward trend. Indeed, when I look at correlations for all pages in the data set, <strong>there is almost no correlation between version number and rating value</strong>:</p>
+
+<blockquote>
+<h6>
+<a name="table-5" class="anchor" href="#table-5"><span class="octicon octicon-link"></span></a><em>Table 5</em>
+</h6>
+
+<table>
+<thead><tr>
+<th>Correlation</th>
+<th>Mean Rating, Any Dimensions</th>
+<th>Mean Rating, All Dimensions</th>
+<th>"Complete"</th>
+<th>"Objective"</th>
+<th>"Trustworthy"</th>
+<th>"Well-Written"</th>
+</tr></thead>
+<tbody><tr>
+<td>nth_version</td>
+<td>0.063059</td>
+<td>0.063983</td>
+<td>0.096140</td>
+<td>0.035822</td>
+<td>0.051972</td>
+<td>0.049783</td>
+</tr></tbody>
+</table>
+</blockquote>
+
+<p>It is possible that, if I can combine versions that, due to the edits being very minor, are essentially the same, that a different trend could emerge. But as of now, there is not much evidence that pages get better over time when quality is measured by user ratings.</p>
+
+<h2>
+<a name="next-steps" class="anchor" href="#next-steps"><span class="octicon octicon-link"></span></a><strong>Next Steps</strong>
+</h2>
+
+<p>I am currently working on merging in data about the actual edits (and other data) from the MediaWiki API. Once I do that, I'll be able to see if certain kinds of edits affect ratings in different ways. For example:</p>
+
+<ul>
+<li>Do edits that change a bigger portion of the page have a bigger effect on ratings?</li>
+<li>Do minor edits have a different effect on ratings?</li>
+<li>Do edits by logged-in users have a more positive effect on ratings?</li>
+<li>Does adding links increase the rating for trustworthiness or objectivity?</li>
+<li>How are ratings correlated to length of the page? To number of links? To amount of data attached to infoboxes?</li>
+</ul><hr>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/bkfunk">bkfunk</a></p>
