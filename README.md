@@ -57,9 +57,9 @@ In order for ratings to be any kind of measure of page quality, people have to a
 
 As with a lot of data dealing with popularity (e.g. population of cities), the data appear to follow [Zipf's law](https://en.wikipedia.org/wiki/Zipf's_law) insofar as a small number of pages get a huge number of ratings, but the number of ratings quickly drops off, ending with a long right tail. Here is a chart illustrating the distribution:
 
-> _Figure 1_
+> ###### _Figure 1_
 
->  ![Chart of distribution of ratings per page (in sample)][ratings per page chart]
+> ![Chart of distribution of ratings per page (in sample)][ratings per page chart]
 
 The average page in the sample has **7.85 ratings** in the year-long period (standard deviation of 42.1), though of course the sample is of pages with at least one rating in that period. The most-rated page in my sample is "The Hunger Games" with 2,713 ratings. The average page has **3.66 different versions** in the sample, with each version being rated an average of **1.63 times**.
 
@@ -67,7 +67,7 @@ The average page in the sample has **7.85 ratings** in the year-long period (sta
 
 Most ratings tend to be high on the 1-5 scale.
     
-> _Figure 2_
+> ###### _Figure 2_
 
 > ![Chart of distribution of rating values][rating values chart]
 
@@ -77,7 +77,7 @@ __Over 40% of observations have ratings that average 4.5 or greater on a scale o
   
 Given the rest of the distribution, there is a larger-than-expected frequency of low ratings (namely, `1`s). This bimodality, where there is a peak in the ratings distribution around `[4.5, 5]` and then around `[1, 1.5)`, is relatively consistent across rating dimensions.
   
-> _Figure 3_
+> ###### _Figure 3_
 
 > ![Chart of distribution of each rating dimension][rating dimension values chart]
 
@@ -89,7 +89,7 @@ Thus, it appears that raters __tend to rate pages at the extremes__, either very
     
 Is it worth asking users to rate 4 dimensions instead of simply giving each page a 1-5 rating? **Each dimension is highly correlated with each other dimension**, indicating that a user who gives a high rating to "Complete", for example, is very likely to give a high rating to "Well-written". Here is a table of Pearson correlations between each dimension:
 
-> _Table 1_
+> ###### _Table 1_
 
 > | Correlation by Dimension  | Complete     | Objective    | Trustworthy  | Well-written |
 |-----------------------------|--------------|--------------|--------------|--------------|
@@ -103,7 +103,7 @@ But, the correlation is not perfect. So, though there is not a whole lot of new 
     
 The means for each dimension do generally differ significantly, however, using a paired difference test. For example, here are the p-values from a Wilcoxon test comparing each dimension to each other dimension:
 
-> _Table 2_
+> ###### _Table 2_
 
 > | Wilcoxon Signed-Rank Test       | Complete     | Objective    | Trustworthy  | Well-written |
 |-----------------------------------|--------------|--------------|--------------|--------------|
@@ -122,30 +122,46 @@ If ratings are indeed useful measures of page quality, and if page quality is so
     
 There are many ways to measure the spread of data like this, but I will focus on the [_mean absolute deviation_ (MAD)](https://en.wikipedia.org/wiki/Absolute_deviation), which is simply the mean of the absolute value of the difference between each observation's value and the mean or median value. Given the fact that both the mean and median rating is quite high, and that rating values are truncated at 5, the distance from the point of central tendency (mean or median) can be higher for lower ratings. Thus it doesn't make as much sense to use the standard deviation, which weights bigger deviations more (since it's the square root of the mean _squared_ error). The MAD can be easily understood as the average difference between a particular rating and the mean/median for all ratings for that page/version.
 
-> _Table 3_
+> ###### _Table 3_
 
-> | Distribution of MAD by Page                     | Count  | Mean  |  25%  |  50%  |  75%  |
-|---------------------------------------------------|--------|-------|-------|-------|-------|
-| Abs. Dev. from Page Mean - Mean of All Dim.       | 49,712 | 0.956 | 0.395 | 0.820 | 1.333 |
-| Abs. Dev. from Page Median - Mean of All Dim.     | 49,712 | 0.905 | 0.250 | 0.625 | 1.250 |
-| Abs. Dev. from Page Mean - "Complete"             | 55,500 | 1.126 | 0.500 | 1.059 | 1.624 | 
-| Abs. Dev. from Page Mean - "Objective"            | 53,265 | 1.103 | 0.500 | 1.000 | 1.500 | 
-| Abs. Dev. from Page Mean - "Trustworthy"          | 56,986 | 1.117 | 0.500 | 0.981 | 1.509 | 
-| Abs. Dev. from Page Mean - "Well-Written"         | 60,508 | 1.040 | 0.500 | 0.893 | 1.418 |
+> | Distribution of MAD by Page                     | Count  | **Mean**  |  25%  |  50%  |  75%  |
+|---------------------------------------------------|--------|-----------|-------|-------|-------|
+| Abs. Dev. from Page Mean - Mean of All Dim.       | 49,712 | **0.956** | 0.395 | 0.820 | 1.333 |
+| Abs. Dev. from Page Median - Mean of All Dim.     | 49,712 | **0.905** | 0.250 | 0.625 | 1.250 |
+| Abs. Dev. from Page Mean - "Complete"             | 55,500 | **1.126** | 0.500 | 1.059 | 1.624 | 
+| Abs. Dev. from Page Mean - "Objective"            | 53,265 | **1.103** | 0.500 | 1.000 | 1.500 | 
+| Abs. Dev. from Page Mean - "Trustworthy"          | 56,986 | **1.117** | 0.500 | 0.981 | 1.509 | 
+| Abs. Dev. from Page Mean - "Well-Written"         | 60,508 | **1.040** | 0.500 | 0.893 | 1.418 |
 
-> Only pages with at least two ratings were included for this table. The computation for the above table is as follows: 1) Compute the mean/median rating for all observations for a given page; 2) for each observation, calculate the absolute value of the difference between that observation's rating for the particular dimension (or the mean of all dimensions). Thus, the `Mean` column constitutes the MAD for the given dimension. Note that for the first two rows, labeled `Mean of All Dim.`, all observations with less than all 4 dimensions rated are excluded; for the remaining rows, all non-missing ratings for that dimension are included, regardless of whether other dimensions were also rated in that observation.
+> Only pages with at least 2 ratings were included for this table. The computation for the above table is as follows: 1) Compute the mean/median rating for all observations for a given page; 2) for each observation, calculate the absolute value of the difference between that observation's rating for the particular dimension (or the mean of all dimensions). Thus, the `Mean` column constitutes the MAD for the given dimension. Note that for the first two rows, labeled `Mean of All Dim.`, all observations with less than all 4 dimensions rated are excluded; for the remaining rows, all non-missing ratings for that dimension are included, regardless of whether other dimensions were also rated in that observation.
+  
+> ----------------
+> ###### _Table 4_
 
-> _Table 4_
+> | Distribution of MAD by Version                     | Count | **Mean**  |  25%  |  50%  |  75%  |
+|------------------------------------------------------|-------|-----------|-------|-------|-------|
+| Abs. Dev. from Version Mean - Mean of All Dim.       | 34515 | **0.817** | 0.275 | 0.649 | 1.200 |
+| Abs. Dev. from Version Median - Mean of All Dim.     | 34515 | **0.758** | 0.125 | 0.500 | 1.125 |
+| Abs. Dev. from Version Mean - "Complete"             | 37403 | **0.960** | 0.400 | 0.826 | 1.500 | 
+| Abs. Dev. from Version Mean - "Objective"            | 36317 | **0.933** | 0.333 | 0.750 | 1.400 | 
+| Abs. Dev. from Version Mean - "Trustworthy"          | 38216 | **0.958** | 0.333 | 0.800 | 1.484 | 
+| Abs. Dev. from Version Mean - "Well-Written"         | 39920 | **0.902** | 0.333 | 0.722 | 1.333 |
 
-> | Distribution of MAD by Version                     | Count  | Mean  |  25%  |  50%  |  75%  |
-|------------------------------===---------------------|--------|-------|-------|-------|-------|
-| Abs. Dev. from Version Mean - Mean of All Dim.       | 34515 | 0.817 | 0.275 | 0.649 | 1.200 |
-| Abs. Dev. from Version Median - Mean of All Dim.     | 34515 | 0.758 | 0.125 | 0.500 | 1.125 |
-| Abs. Dev. from Version Mean - "Complete"             | 37403 | 0.960 | 0.400 | 0.826 | 1.500 | 
-| Abs. Dev. from Version Mean - "Objective"            | 36317 | 0.933 | 0.333 | 0.750 | 1.400 | 
-| Abs. Dev. from Version Mean - "Trustworthy"          | 38216 | 0.958 | 0.333 | 0.800 | 1.484 | 
-| Abs. Dev. from Version Mean - "Well-Written"         | 39920 | 0.902 | 0.333 | 0.722 | 1.333 |
+> Only versions with at least 2 ratings were included for this table. See also note to Table 3 above.
 
+Even though the sample only covers a year, it is of course possible that pages would differ significantly between ratings. However, when looking at _versions_ of pages, we see MADs that are smaller, but still relatively large in magnitude. To put this in perspective, consider a version of an article that has only 2 ratings; Table 4 indicates that the average of all 4 rating dimensions for those two ratings would tend to be about 1.6 points apart on a 1-5 scale, meaning that if one rating was a 5 (very high), on average the other rating would be a 3.4 (very mediocre, given the fact that most ratings are, in fact, 4s or 5s).
+
+> ###### _Figure 4_
+
+> ![Chart of distribution of deviation from version average][diff version avg 2]
+
+> ###### _Figure 5_
+
+> ![Chart of distribution of deviation from version average][diff version avg 5]
+
+> ###### _Figure 6_
+
+> ![Chart of distribution of deviation from version average][diff version avg 11]
 
 Furthermore, the bimodality becomes much more pronounced when looking at pages with high numbers of ratings.
   
@@ -157,5 +173,9 @@ This could mean that having a higher `N`, and thus a theoretically more reliable
 [ratings per page chart]: summary/ratings_per_page_chart.png "Distribution of Ratings per Page"
 [rating values chart]: summary/dist_of_ratings_and_dims.png "Distribution of Rating Values and Dimensions Rated"
 [rating dimension values chart]: summary/dist_of_each_dimension.png "Distribution of Each Rating Dimension"
+[diff version avg 2]: summary/dev_from_version_avg_2.png "Distribution of Deviation from Version Average - 2+ ratings"
+[diff version avg 5]: summary/dev_from_version_avg_5.png "Distribution of Deviation from Version Average - 5+ ratings"
+[diff version avg 11]: summary/dev_from_version_avg_11.png "Distribution of Deviation from Version Average - 11+ ratings"
+
 
 
