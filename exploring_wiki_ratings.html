@@ -2078,7 +2078,7 @@ In&nbsp;[7]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.text.Text at 0x10073b950&gt;
+&lt;matplotlib.text.Text at 0x10073b910&gt;
 </pre>
 </div>
 
@@ -3035,7 +3035,7 @@ In&nbsp;[8]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.text.Text at 0x102822e10&gt;
+&lt;matplotlib.text.Text at 0x10282e710&gt;
 </pre>
 </div>
 
@@ -3970,7 +3970,7 @@ In&nbsp;[11]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.text.Text at 0x108896490&gt;
+&lt;matplotlib.text.Text at 0x1088962d0&gt;
 </pre>
 </div>
 
@@ -4811,7 +4811,7 @@ In&nbsp;[12]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.text.Text at 0x1077b39d0&gt;
+&lt;matplotlib.text.Text at 0x1077b3950&gt;
 </pre>
 </div>
 
@@ -5710,7 +5710,7 @@ In&nbsp;[15]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.text.Text at 0x108928cd0&gt;
+&lt;matplotlib.text.Text at 0x1088c7450&gt;
 </pre>
 </div>
 
@@ -6614,7 +6614,7 @@ In&nbsp;[16]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.text.Text at 0x107e83510&gt;
+&lt;matplotlib.text.Text at 0x10886d950&gt;
 </pre>
 </div>
 
@@ -7404,7 +7404,7 @@ In&nbsp;[17]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.text.Text at 0x108865790&gt;
+&lt;matplotlib.text.Text at 0x1088d5410&gt;
 </pre>
 </div>
 
@@ -9096,7 +9096,7 @@ In&nbsp;[22]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.text.Text at 0x10a661690&gt;
+&lt;matplotlib.text.Text at 0x1028ec850&gt;
 </pre>
 </div>
 
@@ -10170,7 +10170,7 @@ In&nbsp;[32]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.legend.Legend at 0x10d67d9d0&gt;
+&lt;matplotlib.legend.Legend at 0x10d164f10&gt;
 </pre>
 </div>
 
@@ -11805,7 +11805,7 @@ In&nbsp;[33]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&lt;matplotlib.legend.Legend at 0x10d1a8690&gt;
+&lt;matplotlib.legend.Legend at 0x10d1a6350&gt;
 </pre>
 </div>
 
@@ -27651,26 +27651,57 @@ In&nbsp;[50]:
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="import-from-wiki-api">Import From Wiki API</h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[1216]:
+In&nbsp;[85]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">wikitools</span> <span class="kn">import</span> <span class="n">wiki</span><span class="p">,</span> <span class="n">api</span>
 <span class="n">site</span> <span class="o">=</span> <span class="n">wiki</span><span class="o">.</span><span class="n">Wiki</span><span class="p">(</span><span class="s">&#39;http://en.wikipedia.org/w/api.php&#39;</span><span class="p">)</span>
-<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;action&#39;</span><span class="p">:</span><span class="s">&#39;query&#39;</span><span class="p">,</span> 
-          <span class="s">&#39;titles&#39;</span><span class="p">:</span><span class="s">&#39;Acidic_oxide&#39;</span><span class="p">,</span>
-          <span class="s">&#39;prop&#39;</span><span class="p">:</span> <span class="s">&#39;revisions&#39;</span><span class="p">,</span>
-          <span class="s">&#39;rvprop&#39;</span><span class="p">:</span> <span class="s">&#39;ids&#39;</span><span class="p">,</span><span class="c">#|flags|timestamp|user|userid|size|comment|parsedcomment|content|tags|flagged&#39;,</span>
-          <span class="s">&#39;rvlimit&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-          <span class="s">&#39;rvdir&#39;</span><span class="p">:</span> <span class="s">&#39;newer&#39;</span><span class="p">,</span>
-          <span class="s">&#39;rvstartid&#39;</span><span class="p">:</span><span class="s">&#39;427061939&#39;</span><span class="p">,</span>
-          <span class="s">&#39;rvendid&#39;</span><span class="p">:</span> <span class="s">&#39;500154456&#39;</span><span class="p">}</span>
-<span class="n">request</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">APIRequest</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
-<span class="n">result</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[106]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c">#fefr.sort([&#39;page_title&#39;, &#39;rev_id&#39;])</span>
+<span class="n">first_revs</span> <span class="o">=</span> <span class="n">fefr</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&#39;page_title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rev_id</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">last_revs</span> <span class="o">=</span> <span class="n">fefr</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&#39;page_title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rev_id</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<span class="n">page_ids</span> <span class="o">=</span> <span class="n">fefr</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">&#39;page_title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">page_id</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[84]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">first_revs</span><span class="p">,</span> <span class="n">last_revs</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;first&#39;</span><span class="p">,</span> <span class="s">&#39;last&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 
 </div>
@@ -27682,29 +27713,307 @@ In&nbsp;[1216]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[1216]:</div>
+    Out[84]:</div>
+
+<div class="output_html rendered_html output_subarea output_pyout">
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first</th>
+      <th>last</th>
+    </tr>
+    <tr>
+      <th>page_title</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Acidic_oxide</th>
+      <td> 427061939</td>
+      <td> 500154456</td>
+    </tr>
+    <tr>
+      <th>Alan_Questel</th>
+      <td> 485856064</td>
+      <td> 490388040</td>
+    </tr>
+    <tr>
+      <th>Arithmetic_progression</th>
+      <td> 439795331</td>
+      <td> 499085638</td>
+    </tr>
+    <tr>
+      <th>Business_development</th>
+      <td> 439743024</td>
+      <td> 501765668</td>
+    </tr>
+    <tr>
+      <th>Carbon_copy</th>
+      <td> 439434682</td>
+      <td> 498533853</td>
+    </tr>
+    <tr>
+      <th>Damp_proofing</th>
+      <td> 432333340</td>
+      <td> 496300260</td>
+    </tr>
+    <tr>
+      <th>Excess-3</th>
+      <td> 434543512</td>
+      <td> 474299975</td>
+    </tr>
+    <tr>
+      <th>Game_server</th>
+      <td> 439839963</td>
+      <td> 497489178</td>
+    </tr>
+    <tr>
+      <th>Homework</th>
+      <td> 440714547</td>
+      <td> 500086023</td>
+    </tr>
+    <tr>
+      <th>Implied_powers</th>
+      <td> 420335952</td>
+      <td> 501842696</td>
+    </tr>
+    <tr>
+      <th>List_of_spells_in_Harry_Potter</th>
+      <td> 440252234</td>
+      <td> 500539016</td>
+    </tr>
+    <tr>
+      <th>Multitenancy</th>
+      <td> 438799944</td>
+      <td> 502073454</td>
+    </tr>
+    <tr>
+      <th>Ornamental_plant</th>
+      <td> 436098180</td>
+      <td> 491862710</td>
+    </tr>
+    <tr>
+      <th>Partnership_accounting</th>
+      <td> 440550672</td>
+      <td> 479834488</td>
+    </tr>
+    <tr>
+      <th>Pen_pal</th>
+      <td> 438856013</td>
+      <td> 500418856</td>
+    </tr>
+    <tr>
+      <th>Pulse_Polio</th>
+      <td> 441492532</td>
+      <td> 479155548</td>
+    </tr>
+    <tr>
+      <th>Singaporean_national_referendum,_1962</th>
+      <td> 395108968</td>
+      <td> 484949665</td>
+    </tr>
+    <tr>
+      <th>Ultra-high-definition_television</th>
+      <td> 441055808</td>
+      <td> 498702845</td>
+    </tr>
+    <tr>
+      <th>United_States_Declaration_of_Independence</th>
+      <td> 440924612</td>
+      <td> 500818030</td>
+    </tr>
+    <tr>
+      <th>Zung_Self-Rating_Anxiety_Scale</th>
+      <td> 430519224</td>
+      <td> 480106228</td>
+    </tr>
+  </tbody>
+</table>
+<p>20 rows × 2 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Set up the API call, and run it for every page. (For some reason, wikitools won&#39;t allow pulling</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[306]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">get_revisions</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">rvstartid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">rvendid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">rvcontinue</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of revision json-objects for a page, starting at a certain rvstartid/rvcontinueid&quot;&quot;&quot;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;action&#39;</span><span class="p">:</span><span class="s">&#39;query&#39;</span><span class="p">,</span> 
+          <span class="s">&#39;titles&#39;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+          <span class="s">&#39;prop&#39;</span><span class="p">:</span> <span class="s">&#39;revisions&#39;</span><span class="p">,</span>
+          <span class="s">&#39;rvprop&#39;</span><span class="p">:</span> <span class="s">&#39;ids|flags|timestamp|user|userid|size|comment|parsedcomment|content|tags|flagged&#39;</span><span class="p">,</span>
+          <span class="s">&#39;rvdir&#39;</span><span class="p">:</span> <span class="s">&#39;newer&#39;</span><span class="p">,</span>
+          <span class="s">&#39;rvstartid&#39;</span><span class="p">:</span> <span class="n">rvstartid</span><span class="p">,</span>
+          <span class="s">&#39;rvendid&#39;</span><span class="p">:</span> <span class="n">rvendid</span><span class="p">,</span>
+          <span class="s">&#39;rvlimit&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span><span class="c">#,</span>
+          <span class="c">#&#39;rvcontinue&#39;: rvcontinue}</span>
+    <span class="k">if</span> <span class="n">rvcontinue</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s">&#39;rvcontinue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rvcontinue</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">APIRequest</span><span class="p">(</span><span class="n">site</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">querycontinue</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[340]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">get_page_revisions</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">startid</span><span class="p">,</span> <span class="n">endid</span><span class="p">,</span> <span class="n">pid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get all page revisions for a given page, starting at a startid and ending at endid.</span>
+<span class="sd">    </span>
+<span class="sd">    This will call get_revisions until the returned object contains no &#39;query-continue&#39; element.</span>
+<span class="sd">    </span>
+<span class="sd">    It returns a list of revision json-objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">query_res</span> <span class="o">=</span> <span class="n">get_revisions</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">startid</span><span class="p">,</span> <span class="n">endid</span><span class="p">)</span>
+    <span class="n">page_res</span> <span class="o">=</span> <span class="n">query_res</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;pages&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">page_res</span><span class="p">:</span>
+        <span class="c">#print page_res</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">page_res</span><span class="p">[</span><span class="n">pid</span><span class="p">][</span><span class="s">&#39;revisions&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    <span class="c">#print query_res.keys()</span>
+    <span class="k">while</span> <span class="s">&#39;query-continue&#39;</span> <span class="ow">in</span> <span class="n">query_res</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Continued at: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">query_res</span><span class="p">[</span><span class="s">&#39;query-continue&#39;</span><span class="p">][</span><span class="s">&#39;revisions&#39;</span><span class="p">][</span><span class="s">&#39;rvcontinue&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s">&#39;warnings&#39;</span> <span class="ow">in</span> <span class="n">query_res</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Query warning: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">query_res</span><span class="p">[</span><span class="s">&#39;warnings&#39;</span><span class="p">]</span>
+        
+        <span class="n">query_res</span> <span class="o">=</span> <span class="n">get_revisions</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> 
+                                  <span class="n">startid</span><span class="p">,</span> 
+                                  <span class="n">endid</span><span class="p">,</span> 
+                                  <span class="n">query_res</span><span class="p">[</span><span class="s">&#39;query-continue&#39;</span><span class="p">][</span><span class="s">&#39;revisions&#39;</span><span class="p">][</span><span class="s">&#39;rvcontinue&#39;</span><span class="p">])</span>
+        <span class="c">#print &quot;Query keys: %s&quot; % query_res.keys()</span>
+        <span class="n">page_res</span> <span class="o">=</span> <span class="n">query_res</span><span class="p">[</span><span class="s">&#39;query&#39;</span><span class="p">][</span><span class="s">&#39;pages&#39;</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">page_res</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">page_res</span><span class="p">[</span><span class="n">pid</span><span class="p">][</span><span class="s">&#39;revisions&#39;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Go through each page title and get a list of revision objects. Then, create a dataframe from those objects, and put it in a dict (<code>revs</code>).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[341]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">revs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">first_revs</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">startid</span> <span class="o">=</span> <span class="n">first_revs</span><span class="p">[</span><span class="n">title</span><span class="p">]</span>
+    <span class="n">endid</span> <span class="o">=</span> <span class="n">last_revs</span><span class="p">[</span><span class="n">title</span><span class="p">]</span>
+    <span class="n">pid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">page_ids</span><span class="p">[</span><span class="n">title</span><span class="p">])</span>
+    
+    <span class="n">revs</span><span class="p">[</span><span class="n">title</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">get_page_revisions</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">startid</span><span class="p">,</span> <span class="n">endid</span><span class="p">,</span> <span class="n">pid</span><span class="p">))</span>
+    <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">revs</span><span class="p">[</span><span class="n">title</span><span class="p">]))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
 
 
-<div class="output_text output_subarea output_pyout">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
 <pre>
-{u&apos;query&apos;: {u&apos;normalized&apos;: [{u&apos;from&apos;: u&apos;Acidic_oxide&apos;,
-    u&apos;to&apos;: u&apos;Acidic oxide&apos;}],
-  u&apos;pages&apos;: {u&apos;794849&apos;: {u&apos;ns&apos;: 0,
-    u&apos;pageid&apos;: 794849,
-    u&apos;revisions&apos;: [{u&apos;parentid&apos;: 389194926, u&apos;revid&apos;: 427061939},
-     {u&apos;parentid&apos;: 427061939, u&apos;revid&apos;: 445967216},
-     {u&apos;parentid&apos;: 445967216, u&apos;revid&apos;: 453935315},
-     {u&apos;parentid&apos;: 453935315, u&apos;revid&apos;: 462203723},
-     {u&apos;parentid&apos;: 462203723, u&apos;revid&apos;: 490775320},
-     {u&apos;parentid&apos;: 490775320, u&apos;revid&apos;: 490775470},
-     {u&apos;parentid&apos;: 490775470, u&apos;revid&apos;: 500154295},
-     {u&apos;parentid&apos;: 500154295, u&apos;revid&apos;: 500154456}],
-    u&apos;title&apos;: u&apos;Acidic oxide&apos;}}}}
+Acidic_oxide: 8
+Alan_Questel: 0
+Continued at: 476778108
+Arithmetic_progression: 77
+Business_development: 42
+Carbon_copy: 26
+Damp_proofing: 21
+Excess-3: 6
+Game_server: 34
+Continued at: 470412069
+Homework: 58
+Implied_powers: 41
+Continued at: 471954482
+List_of_spells_in_Harry_Potter: 75
+Multitenancy: 9
+Ornamental_plant: 19
+Partnership_accounting: 8
+Pen_pal: 27
+Continued at: 450084450
+Pulse_Polio: 75
+Singaporean_national_referendum,_1962: 7
+Ultra-high-definition_television: 0
+Continued at: 445311436
+Continued at: 449893631
+Continued at: 471344690
+United_States_Declaration_of_Independence: 192
+Zung_Self-Rating_Anxiety_Scale: 7
+
 </pre>
 </div>
-
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[342]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># Concat all the revisions into a single dataframe, which we can merge in</span>
+<span class="n">revdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">revs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
